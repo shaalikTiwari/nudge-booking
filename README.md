@@ -28,7 +28,8 @@ nudge-booking/
 3. In `frontend/`: `npm install`, set `VITE_API_URL` in `.env` to your backend's URL, then `npm run dev`
 
 ## Live demo
-_Coming soon_
+- App: https://nudge-booking.vercel.app
+- API: https://nudge-booking.onrender.com
 
 ---
 Built by Shaalik Tiwari.
