@@ -45,6 +45,11 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
 
+    // Block suspended accounts from logging in
+    if (business.suspended) {
+      return res.status(403).json({ error: 'Your account has been suspended. Contact support.' });
+    }
+
     res.json({
       _id: business._id,
       name: business.name,
@@ -57,12 +62,12 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// GET /api/business/me — get current business profile
+// GET /api/business/me
 router.get('/me', requireAdmin, async (req, res) => {
   res.json(req.business);
 });
 
-// PATCH /api/business/me — update settings (hours, slot length etc)
+// PATCH /api/business/me
 router.patch('/me', requireAdmin, async (req, res) => {
   try {
     const { name, phone, openHour, closeHour, slotLengthMinutes } = req.body;
