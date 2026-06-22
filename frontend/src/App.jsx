@@ -4,6 +4,7 @@ import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import AdminDashboard from './pages/AdminDashboard';
 import BookingPage from './pages/BookingPage';
+import SuperAdminPage from './pages/SuperAdminPage';
 import { isLoggedIn } from './api/api';
 
 function ProtectedRoute({ children }) {
@@ -26,6 +27,7 @@ export default function App() {
           }
         />
         <Route path="/book/:slug" element={<BookingPage />} />
+        <Route path="/superadmin" element={<SuperAdminPage />} />
       </Routes>
     </BrowserRouter>
   );
