@@ -11,6 +11,7 @@ export default function AdminDashboard() {
   const [settings, setSettings] = useState(null);
   const [settingsSaving, setSettingsSaving] = useState(false);
   const [settingsMsg, setSettingsMsg] = useState('');
+  const [newBlockedDate, setNewBlockedDate] = useState('');
   const navigate = useNavigate();
   const business = getStoredBusiness();
 
@@ -30,6 +31,7 @@ export default function AdminDashboard() {
           openHour: bizRes.data.openHour,
           closeHour: bizRes.data.closeHour,
           slotLengthMinutes: bizRes.data.slotLengthMinutes,
+          blockedDates: bizRes.data.blockedDates || [],
         });
       })
       .catch((err) => {
@@ -333,6 +335,62 @@ export default function AdminDashboard() {
                     Each appointment slot will be {settings.slotLengthMinutes} minutes long.
                   </p>
                 </div>
+              </div>
+              {/* Blocked dates card */}
+              <div className="rounded-2xl border border-brand-100 bg-white p-6 space-y-4">
+                <p className="text-xs font-semibold uppercase tracking-wide text-ink/40">Blocked dates</p>
+                <p className="text-sm text-ink/60">Block specific dates — customers won't be able to book on these days.</p>
+
+                {/* Add a date */}
+                <div className="flex gap-2">
+                  <input
+                    type="date"
+                    value={newBlockedDate}
+                    onChange={(e) => setNewBlockedDate(e.target.value)}
+                    min={new Date().toISOString().split('T')[0]}
+                    className="flex-1 rounded-lg border border-brand-100 px-3 py-2 text-sm focus:outline-none focus:border-brand-400"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (!newBlockedDate) return;
+                      if (settings.blockedDates?.includes(newBlockedDate)) return;
+                      setSettings({
+                        ...settings,
+                        blockedDates: [...(settings.blockedDates || []), newBlockedDate].sort(),
+                      });
+                      setNewBlockedDate('');
+                    }}
+                    className="rounded-lg bg-brand-500 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-600"
+                  >
+                    Block date
+                  </button>
+                </div>
+
+                {/* List of blocked dates */}
+                {settings.blockedDates && settings.blockedDates.length > 0 ? (
+                  <div className="space-y-2">
+                    {settings.blockedDates.map((d) => (
+                      <div key={d} className="flex items-center justify-between rounded-lg bg-red-50 px-3 py-2">
+                        <span className="text-sm text-red-600 font-medium">{d}</span>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setSettings({
+                              ...settings,
+                              blockedDates: settings.blockedDates.filter((x) => x !== d),
+                            })
+                          }
+                          className="text-xs text-red-400 hover:text-red-600 font-medium"
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-xs text-ink/40">No dates blocked yet.</p>
+                )}
               </div>
 
               {settingsMsg && (

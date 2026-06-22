@@ -42,6 +42,11 @@ export default function BookingPage() {
       .then((res) => {
         setSlots(res.data.available);
         setBusinessName(res.data.businessName);
+        if (res.data.blocked) {
+          setError('This date is not available for booking. Please pick another date.');
+        } else {
+          setError('');
+        }
       })
       .finally(() => setSlotsLoading(false));
   }, [date, slug]);

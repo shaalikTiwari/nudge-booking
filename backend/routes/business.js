@@ -70,7 +70,7 @@ router.get('/me', requireAdmin, async (req, res) => {
 // PATCH /api/business/me
 router.patch('/me', requireAdmin, async (req, res) => {
   try {
-    const { name, phone, openHour, closeHour, slotLengthMinutes } = req.body;
+    const { name, phone, openHour, closeHour, slotLengthMinutes, blockedDates } = req.body;
     const business = req.business;
 
     if (name) business.name = name;
@@ -78,6 +78,7 @@ router.patch('/me', requireAdmin, async (req, res) => {
     if (openHour !== undefined) business.openHour = openHour;
     if (closeHour !== undefined) business.closeHour = closeHour;
     if (slotLengthMinutes !== undefined) business.slotLengthMinutes = slotLengthMinutes;
+    if (blockedDates !== undefined) business.blockedDates = blockedDates;
 
     await business.save();
     res.json(business);

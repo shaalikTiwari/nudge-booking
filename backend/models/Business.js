@@ -12,6 +12,7 @@ const businessSchema = new mongoose.Schema(
     closeHour: { type: Number, default: 19 },
     slotLengthMinutes: { type: Number, default: 30 },
     suspended: { type: Boolean, default: false },
+    blockedDates: [{ type: String }], // Array of 'YYYY-MM-DD' strings
   },
   { timestamps: true }
 );

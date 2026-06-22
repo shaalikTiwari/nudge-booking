@@ -14,12 +14,17 @@ router.get('/available-slots', async (req, res) => {
   const business = await Business.findOne({ slug });
   if (!business) return res.status(404).json({ error: 'Business not found' });
 
+  // Check if this date is blocked by the business
+  if (business.blockedDates && business.blockedDates.includes(date)) {
+    return res.json({ available: [], businessName: business.name, blocked: true });
+  }
+
   const allSlots = generateDaySlots(business.openHour, business.closeHour, business.slotLengthMinutes);
   const booked = await Appointment.find({ business: business._id, date, status: 'booked' }).select('time');
   const bookedTimes = new Set(booked.map((b) => b.time));
 
   const available = allSlots.filter((slot) => !bookedTimes.has(slot));
-  res.json({ available, businessName: business.name });
+  res.json({ available, businessName: business.name, blocked: false });
 });
 
 // GET /api/appointments — admin only, own business appointments
