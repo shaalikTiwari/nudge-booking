@@ -1,35 +1,41 @@
-# Nudge — Appointment Booking with Automated WhatsApp Reminders
+# Nudge — WhatsApp Appointment Booking Platform
 
-A full-stack booking system built for small service businesses (salons, clinics, gyms, tutors) that manage appointments manually and forget to follow up with customers. Customers book a slot through a simple public page; the business gets an instant WhatsApp confirmation, and a reminder goes out automatically the day before — no manual tracking required.
+A multi-tenant SaaS booking platform for small service businesses (salons, clinics, gyms, tutors). Each business gets their own account, a unique public booking page they can share with customers, instant WhatsApp confirmations on every booking, and automated day-before reminders — all without any manual work.
+
+## How it works
+
+1. A business registers at nudge-booking.vercel.app and gets a unique booking link (e.g. `/book/priya-salon`)
+2. They add their services to their dashboard
+3. They share their booking link with customers
+4. Customers book a slot — get an instant WhatsApp confirmation
+5. The next day, Nudge automatically sends a reminder to every customer with an appointment the following day
 
 ## Features
-- Public booking page with live available time slots
-- Instant WhatsApp confirmation on booking (via Twilio)
-- Automated day-before WhatsApp reminders (cron job)
-- Lightweight admin dashboard to manage appointments and services
-- Conflict prevention for double-booked slots
+- Multi-tenant: unlimited businesses, each fully isolated
+- JWT authentication for business owners
+- Per-business configurable services, working hours, and slot lengths
+- Public booking page per business at `/book/:slug`
+- Instant WhatsApp confirmation on booking (Twilio)
+- Automated day-before WhatsApp reminders (node-cron)
+- Admin dashboard: view, complete, or cancel appointments
+- Double-booking prevention
 
 ## Tech stack
 - **Frontend:** React (Vite), Tailwind CSS, React Router
-- **Backend:** Node.js, Express, MongoDB (Mongoose)
+- **Backend:** Node.js, Express, MongoDB (Mongoose), JWT (jsonwebtoken), bcryptjs
 - **Messaging:** Twilio WhatsApp API
 - **Scheduling:** node-cron
-
-## Project structure
-\`\`\`
-nudge-booking/
-├── backend/   — Express API, MongoDB models, WhatsApp + reminder logic
-└── frontend/  — React booking page + admin dashboard
-\`\`\`
-
-## Running locally
-1. Clone the repo
-2. In `backend/`: `npm install`, copy `.env.example` to `.env` and fill in your MongoDB Atlas URI, Twilio credentials, and admin passcode, then `npm run dev`
-3. In `frontend/`: `npm install`, set `VITE_API_URL` in `.env` to your backend's URL, then `npm run dev`
+- **Deployment:** Vercel (frontend), Render (backend), MongoDB Atlas
 
 ## Live demo
 - App: https://nudge-booking.vercel.app
+- Demo booking page: https://nudge-booking.vercel.app/book/nudge-demo
 - API: https://nudge-booking.onrender.com
 
+## Local setup
+1. Clone the repo
+2. `cd backend` → `npm install` → copy `.env.example` to `.env` and fill in values → `npm run dev`
+3. `cd frontend` → `npm install` → set `VITE_API_URL` in `.env` → `npm run dev`
+
 ---
-Built by Shaalik Tiwari.
+Built by Shaalik Tiwari
