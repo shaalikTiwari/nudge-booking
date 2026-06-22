@@ -1,8 +1,5 @@
-const business = require('../config/business');
-
-function generateDaySlots() {
+function generateDaySlots(openHour, closeHour, slotLengthMinutes) {
   const slots = [];
-  const { openHour, closeHour, slotLengthMinutes } = business;
   let totalMinutes = openHour * 60;
   const endMinutes = closeHour * 60;
 

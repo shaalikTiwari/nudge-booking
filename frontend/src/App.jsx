@@ -1,30 +1,31 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import BookingPage from './pages/BookingPage';
-import AdminLogin from './pages/AdminLogin';
+import LandingPage from './pages/LandingPage';
+import RegisterPage from './pages/RegisterPage';
+import LoginPage from './pages/LoginPage';
 import AdminDashboard from './pages/AdminDashboard';
-
-function isLoggedIn() {
-  return Boolean(localStorage.getItem('nudge_admin_passcode'));
-}
+import BookingPage from './pages/BookingPage';
+import { isLoggedIn } from './api/api';
 
 function ProtectedRoute({ children }) {
-  return isLoggedIn() ? children : <Navigate to="/admin" replace />;
+  return isLoggedIn() ? children : <Navigate to="/login" replace />;
 }
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<BookingPage />} />
-        <Route path="/admin" element={<AdminLogin />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route
-          path="/admin/dashboard"
+          path="/dashboard"
           element={
             <ProtectedRoute>
               <AdminDashboard />
             </ProtectedRoute>
           }
         />
+        <Route path="/book/:slug" element={<BookingPage />} />
       </Routes>
     </BrowserRouter>
   );

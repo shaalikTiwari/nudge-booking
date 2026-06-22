@@ -1,12 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-router.post('/login', (req, res) => {
-  const { passcode } = req.body;
-  if (passcode && passcode === process.env.ADMIN_PASSCODE) {
-    return res.json({ success: true });
-  }
-  res.status(401).json({ success: false, error: 'Incorrect passcode' });
-});
+// Auth is now handled by /api/business/login
+// Keeping this file so the route mount in server.js doesn't break
+router.get('/', (req, res) => res.json({ message: 'Use /api/business/login to authenticate' }));
 
 module.exports = router;

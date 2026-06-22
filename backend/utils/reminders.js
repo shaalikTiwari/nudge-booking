@@ -10,11 +10,12 @@ async function sendReminders() {
     date: tomorrow,
     status: 'booked',
     reminderSent: false,
-  }).populate('service');
+  }).populate('service').populate('business');
 
   for (const appt of appointments) {
-    const serviceName = appt.service ? appt.service.name : 'your appointment';
-    const body = `Hi ${appt.customerName}! Reminder: you have a ${serviceName} appointment tomorrow at ${appt.time}. See you then 👋`;
+    const serviceName = appt.service?.name || 'your appointment';
+    const businessName = appt.business?.name || 'us';
+    const body = `Hi ${appt.customerName}! Reminder: you have a ${serviceName} appointment at ${businessName} tomorrow at ${appt.time}. See you then 👋`;
 
     const sent = await sendWhatsAppMessage(appt.customerPhone, body);
     if (sent) {
