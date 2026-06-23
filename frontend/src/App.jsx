@@ -7,6 +7,7 @@ import BookingPage from './pages/BookingPage';
 import SuperAdminPage from './pages/SuperAdminPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
+import BillingPage from './pages/BillingPage';
 import { isLoggedIn } from './api/api';
 
 function ProtectedRoute({ children }) {
@@ -27,6 +28,14 @@ export default function App() {
           element={
             <ProtectedRoute>
               <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/billing"
+          element={
+            <ProtectedRoute>
+              <BillingPage />
             </ProtectedRoute>
           }
         />

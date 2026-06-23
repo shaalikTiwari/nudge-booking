@@ -15,6 +15,14 @@ const businessSchema = new mongoose.Schema(
     blockedDates: [{ type: String }],
     resetToken: { type: String },
     resetTokenExpiry: { type: Date },
+    // Subscription fields
+    subscriptionStatus: {
+      type: String,
+      enum: ['trial', 'active', 'expired', 'cancelled'],
+      default: 'trial',
+    },
+    subscriptionId: { type: String }, // Razorpay subscription ID
+    currentPeriodEnd: { type: Date }, // when current paid period ends
   },
   { timestamps: true }
 );

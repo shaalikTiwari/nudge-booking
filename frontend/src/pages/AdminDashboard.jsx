@@ -105,7 +105,12 @@ export default function AdminDashboard() {
             <span className="font-display text-xl font-bold text-brand-500">Nudge</span>
             <span className="ml-2 text-sm text-ink/50">{business?.name}</span>
           </div>
-          <button onClick={logout} className="text-sm text-ink/60 hover:text-accent-500">Log out</button>
+          <div className="flex items-center gap-4">
+            <button onClick={() => navigate('/billing')} className="text-sm text-ink/60 hover:text-brand-500">
+              Billing
+            </button>
+            <button onClick={logout} className="text-sm text-ink/60 hover:text-accent-500">Log out</button>
+          </div>
         </div>
       </header>
 
