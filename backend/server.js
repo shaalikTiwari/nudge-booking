@@ -10,6 +10,7 @@ const appointmentRoutes = require('./routes/appointments');
 const authRoutes = require('./routes/auth');
 const businessRoutes = require('./routes/business');
 const superadminRoutes = require('./routes/superadmin');
+const passwordResetRoutes = require('./routes/passwordReset');
 const { startReminderCron } = require('./utils/reminders');
 const { sanitizeBody } = require('./utils/sanitize');
 
@@ -62,6 +63,7 @@ app.use('/api/services', serviceRoutes);
 app.use('/api/appointments', appointmentRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/superadmin', superadminRoutes);
+app.use('/api/password-reset', authLimiter, passwordResetRoutes);
 
 app.get('/', (req, res) => res.json({ status: 'ok', message: 'Nudge API is running.' }));
 
