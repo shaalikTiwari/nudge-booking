@@ -8,6 +8,14 @@ import PhonePreview from '../components/PhonePreview';
 const todayStr = dayjs().format('YYYY-MM-DD');
 const maxDateStr = dayjs().add(21, 'day').format('YYYY-MM-DD');
 
+function convert24to12(time) {
+  const [h, m] = time.split(':');
+  const hour = parseInt(h);
+  const ampm = hour >= 12 ? 'PM' : 'AM';
+  const displayHour = hour % 12 || 12;
+  return `${displayHour}:${m} ${ampm}`;
+}
+
 export default function BookingPage() {
   const { slug } = useParams();
   const [services, setServices] = useState([]);
@@ -56,7 +64,7 @@ export default function BookingPage() {
   const previewMessage =
     confirmedMessage ||
     (name && time && selectedService
-      ? `Hi ${name}! Your ${selectedService.name} appointment at ${businessName} is confirmed for ${date} at ${time}. See you then 🎉`
+      ? `Hi ${name}! Your ${selectedService.name} appointment at ${businessName} is confirmed for ${date} at ${convert24to12(time)}. See you then 🎉`
       : '');
 
   async function handleSubmit(e) {
@@ -197,7 +205,7 @@ export default function BookingPage() {
           )}
         </section>
 
-        <section className="lg:sticky lg:top-10">
+        <section className="lg:sticky lg:top-10 hidden lg:block">
           <PhonePreview message={previewMessage} businessName={businessName} />
         </section>
       </main>
